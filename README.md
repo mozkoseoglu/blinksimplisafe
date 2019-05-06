@@ -13,7 +13,7 @@ SimpliSafe and SimpliCam is a trademark owned by SimpliSafe, Inc., see www.simpl
 ## Goal of the project
 It aims to solve these common problems I have with running 2 disparate systens:
 * The SimpliSafe alarm and Blink XT cameras need to be indepedently activated; Disarming/arming one system does not affect the other - this allows to sync both up automatically. If your SimpliSafe System is in `home` or `away` mode, it will activate the `Blink` cameras.
-* Blink cameras running low on battery is only shown as a simple **OK** indicator on the iOS App - this allows for closer monitoring, custom alarms, and to extract more details (*not implemented*)
+* Blink cameras running low on battery is only shown as a simple **OK** indicator on the iOS App - this allows for closer monitoring, custom alarms, and to extract more details (*no automatic alerts implemented*)
 * Recorded videos are only available by manually downloading them via the iOS app - this solves the problem by downloading videos automatically (*not implemented*)
 
 ## Requirements

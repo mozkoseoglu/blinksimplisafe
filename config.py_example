@@ -10,3 +10,6 @@ simplisafe = dict(
     password='YOUR_SIMPLISAFE_PW',
     address='Your address from the SimpliSafe Homepage'
 )
+logs = dict(
+    log_path='./'
+)
