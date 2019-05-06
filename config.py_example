@@ -1,0 +1,12 @@
+blink = dict(
+    username='YOUR_BLINK_USER',
+    password='YOUR_BLINK_PW',
+    system_name='YOUR_BLINK_SYSTEM_NAME',
+    refresh_rate=30,
+    battery_threshold=50
+)
+simplisafe = dict(
+    username='YOUR_SIMPLISAFE_USER',
+    password='YOUR_SIMPLISAFE_PW',
+    address='Your address from the SimpliSafe Homepage'
+)
