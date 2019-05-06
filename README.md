@@ -40,5 +40,10 @@ These configurations ensure that only one system is in sync at the time. If you 
 
 The script can be run periodically via a cronjob. The tool itself does not run an internal loop on purpose, so it allows for more granular scheduling.
 
+## ToDo
+* Add unit tests
+* Add monitoring for camera battery status
+* Add automatic downloads for Blink
+
 ## License
 [MIT](./LICENSE.md)
