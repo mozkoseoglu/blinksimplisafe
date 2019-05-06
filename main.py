@@ -9,7 +9,7 @@ from enum import Enum
 
 __author__ = "Christian Hollinger (otter-in-a-suit)"
 __version__ = "0.1.0"
-__license__ = "GNU GPLv3"
+__license__ = "MIT"
 
 
 def get_blink():
