@@ -1,3 +1,7 @@
+modes = dict(
+    use_arm_sync=True,
+    use_battery_check=True
+)
 blink = dict(
     username='YOUR_BLINK_USER',
     password='YOUR_BLINK_PW',
@@ -12,4 +16,8 @@ simplisafe = dict(
 )
 logs = dict(
     log_path='./'
+)
+schedule = dict(
+    use_schedule=True,
+    check_interval_in_s=60
 )

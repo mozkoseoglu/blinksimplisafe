@@ -8,6 +8,8 @@ from simplipy import API
 # Python
 from enum import Enum
 import logging
+import time
+import threading
 
 __author__ = "Christian Hollinger (otter-in-a-suit)"
 __version__ = "0.1.0"
@@ -74,6 +76,29 @@ def arm_blink_if_ss(system, blink):
         raise ValueError('Simplisafe system state is undefined')
 
 
+def scheduled_run(system, blink):
+    """Re-runs this every check_interval_in_s seconds"""
+    # Refresh
+    blink.refresh(force_cache=False)
+    system.update(refresh_location=True, cached=True)
+    # Run
+    logging.info('Running loop at {thyme}'.format(thyme=time.ctime()))
+    run_main_loop(system, blink)
+    # Repeat
+    threading.Timer(config.schedule['check_interval_in_s'], scheduled_run, [
+                    system, blink]).start()
+
+
+def run_main_loop(system, blink):
+    """Runs all functions, depending on the configurations"""
+    if config.modes['use_arm_sync'] == True:
+        # Arm Blink if SS is armed
+        arm_blink_if_ss(system, blink)
+    if config.modes['use_battery_check'] == True:
+        # Get battery
+        get_battery_alerts(blink)
+
+
 async def init():
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
@@ -87,13 +112,13 @@ async def init():
 
 def main():
     # Configure logger
-    logging.basicConfig(level=logging.INFO, 
-    format="%(asctime)s %(message)s",
-    handlers=[
-        logging.FileHandler(
-            "{0}/{1}.log".format(config.logs['log_path'], 'blinksimplisafe')),
-        logging.StreamHandler()
-    ])
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s %(message)s",
+                        handlers=[
+                            logging.FileHandler(
+                                "{0}/{1}.log".format(config.logs['log_path'], 'blinksimplisafe')),
+                            logging.StreamHandler()
+                        ])
 
     logging.info('Synchronizing the systems...')
     # Get Simplisafe, Blink
@@ -107,10 +132,16 @@ def main():
             'Cannot find address, make sure your configuration is set up correctly')
     else:
         system = _systems[0]
-    # Get battery
-    get_battery_alerts(blink)
-    # Arm Blink if SS is armed
-    arm_blink_if_ss(system, blink)
+
+    # Scheduling
+    if config.schedule['use_schedule'] is True:
+        # Run in schedule
+        logging.info('Running in schedule...')
+        scheduled_run(system, blink)
+    else:
+        # Run once
+        logging.info('Running once...')
+        run_main_loop(system, blink)
 
 
 if __name__ == "__main__":
